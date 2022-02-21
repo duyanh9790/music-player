@@ -19,12 +19,17 @@ const Player = $('.player');
 
 const btnNextSong = $('.btn-next');
 const btnPreSong = $('.btn-prev');
+const btnRepeat = $('.btn-repeat');
+const btnRandom = $('.btn-random');
 
 const app = {
   currentIndex: 0,
   isPlaying: false,
   isMute: false,
+  isRepeat: false,
+  isRandom: false,
   volume: null,
+  randomSongs: [],
   songs: [
     {
       title: 'Muộn rồi mà sao còn',
@@ -261,11 +266,20 @@ const app = {
       }
     });
 
+    // Handle when end song
     audio.addEventListener('ended', function () {
-      _this.nextSong();
+      if (_this.isRepeat) {
+        audio.currentTime = 0;
+      } else if (!_this.isRandom) {
+        _this.nextSong();
+      }
+      if (_this.isRandom) {
+        _this.randomSong();
+      }
       audio.play();
     });
 
+    //Handle Rotate CD Thumb
     const cdThumbAnimate = cdThumb.animate(
       [
         // keyframes
@@ -287,6 +301,16 @@ const app = {
       _this.prevSong();
       audio.play();
     });
+
+    btnRepeat.addEventListener('click', function () {
+      _this.isRepeat = !_this.isRepeat;
+      btnRepeat.classList.toggle('active', _this.isRepeat);
+    });
+
+    btnRandom.addEventListener('click', function () {
+      _this.isRandom = !_this.isRandom;
+      btnRandom.classList.toggle('active', _this.isRandom);
+    });
   },
   nextSong: function () {
     this.currentIndex++;
@@ -300,6 +324,24 @@ const app = {
     if (this.currentIndex < 0) {
       this.currentIndex = this.songs.length - 1;
     }
+    this.loadCurrentSong(this.currentIndex);
+  },
+  randomSong: function () {
+    if (this.randomSongs.length === 0) {
+      this.randomSongs.push(this.currentIndex);
+    }
+    const newIndex = Math.floor(Math.random() * this.songs.length);
+    console.log('Before: ', this.randomSongs);
+    if (this.randomSongs.includes(newIndex)) {
+      if (this.randomSongs.length === this.songs.length) {
+        this.randomSongs = [];
+      }
+      this.randomSong();
+      return;
+    }
+    this.randomSongs.push(newIndex);
+    console.log('After: ', this.randomSongs);
+    this.currentIndex = newIndex;
     this.loadCurrentSong(this.currentIndex);
   },
   formatTime: function (time) {
