@@ -165,6 +165,7 @@ const app = {
   init: function () {
     progressVolume.value = 80;
     audio.volume = 0.8;
+    progress.value = 0;
   },
   loadCurrentSong: function (index) {
     currentSong = this.songs[index];
@@ -192,6 +193,14 @@ const app = {
     progress.addEventListener('input', function () {
       const currentTime = (progress.value / 100) * audio.duration;
       audio.currentTime = currentTime;
+    });
+
+    progressBar.addEventListener('mousedown', function (e) {
+      const progressWidth = progress.offsetWidth;
+      const newValue = (e.offsetX / progressWidth) * 100;
+      const newCurrentTime = (newValue / 100) * audio.duration;
+      progress.value = newValue;
+      audio.currentTime = newCurrentTime;
     });
 
     btnPlay.addEventListener('click', function () {
