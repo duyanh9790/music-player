@@ -32,6 +32,12 @@ const app = {
   randomSongs: [],
   songs: [
     {
+      title: 'Nhớ - lofi version',
+      artist: 'Min.T ft Quanvrox',
+      cover: './assets/images/Nho-Min.T-Quanvrox.jpg',
+      path: './assets/audio/Nho-Min.T-Quanvrox.mp3',
+    },
+    {
       title: 'Muộn rồi mà sao còn',
       artist: 'Sơn Tùng MTP',
       cover: './assets/images/MuonRoiMaSaoCon-SonTungMTP.jpg',
