@@ -365,7 +365,6 @@ const app = {
       this.randomSongs.push(this.currentIndex);
     }
     const newIndex = Math.floor(Math.random() * this.songs.length);
-    console.log('Before: ', this.randomSongs);
     if (this.randomSongs.includes(newIndex)) {
       if (this.randomSongs.length === this.songs.length) {
         this.randomSongs = [];
@@ -374,9 +373,10 @@ const app = {
       return;
     }
     this.randomSongs.push(newIndex);
-    console.log('After: ', this.randomSongs);
     this.currentIndex = newIndex;
     this.loadCurrentSong(this.currentIndex);
+    this.handleActiveSong();
+    this.scrollToActiveSong();
   },
   handleActiveSong: function () {
     $$('.song').forEach((song) => {
