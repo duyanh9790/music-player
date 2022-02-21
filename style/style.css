@@ -71,7 +71,7 @@ header h2 {
 .cd {
   display: flex;
   margin: auto;
-  width: 200px;
+  max-width: 200px;
 }
 
 .cd-thumb {

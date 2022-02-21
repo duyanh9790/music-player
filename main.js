@@ -199,6 +199,10 @@ const app = {
         newWidth = 0;
       }
 
+      if (newWidth > cdWidth) {
+        newWidth = cdWidth;
+      }
+
       cd.style.width = newWidth + 'px';
       cd.style.opacity = newWidth / cdWidth;
     });
