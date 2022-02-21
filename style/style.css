@@ -48,6 +48,7 @@ html {
   width: 100%;
   max-width: 600px;
   border-bottom: 1px solid #ebebeb;
+  z-index: 10;
 }
 
 /* HEADER */
@@ -112,6 +113,10 @@ header h2 {
   align-items: center;
   justify-content: center;
   background-color: var(--primary-color);
+}
+
+.control .btn-toggle-play:hover {
+  opacity: 0.92;
 }
 
 .btn-random.active .btn-repeat.active {
@@ -276,7 +281,7 @@ header h2 {
 
 /* PLAYLIST */
 .playlist {
-  margin-top: 440px;
+  margin-top: 450px;
   padding: 12px;
   background-color: #f3f2f7;
 }
@@ -293,6 +298,7 @@ header h2 {
 
 .song.active {
   background-color: var(--primary-color);
+  opacity: 0.9;
 }
 
 .song:active {

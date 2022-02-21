@@ -150,7 +150,9 @@ const app = {
     const htmls = this.songs
       .map((song, index) => {
         return `
-          <div class="song">
+          <div class="song ${
+            index === this.currentIndex ? 'active' : ''
+          }" data-index=${index}>
             <div class="thumb"
                 style="background-image: url('${song.cover}')">
             </div>
@@ -311,6 +313,28 @@ const app = {
       _this.isRandom = !_this.isRandom;
       btnRandom.classList.toggle('active', _this.isRandom);
     });
+
+    // Handle when click on playlist
+    playList.addEventListener('click', function (e) {
+      const songElement = e.target.closest('.song:not(.active)');
+      const optionElement = e.target.closest('.option');
+      console.dir(e.target.closest);
+      if (songElement || optionElement) {
+        // Handle when click on song
+        if (songElement) {
+          const songIndex = songElement.dataset.index;
+          _this.currentIndex = songIndex;
+          _this.loadCurrentSong(_this.currentIndex);
+          _this.handleActiveSong(songIndex);
+          _this.scrollToActiveSong();
+          audio.play();
+        }
+
+        //Handle when click on option
+        if (optionElement) {
+        }
+      }
+    });
   },
   nextSong: function () {
     this.currentIndex++;
@@ -318,6 +342,8 @@ const app = {
       this.currentIndex = 0;
     }
     this.loadCurrentSong(this.currentIndex);
+    this.handleActiveSong();
+    this.scrollToActiveSong();
   },
   prevSong: function () {
     this.currentIndex--;
@@ -325,6 +351,8 @@ const app = {
       this.currentIndex = this.songs.length - 1;
     }
     this.loadCurrentSong(this.currentIndex);
+    this.handleActiveSong();
+    this.scrollToActiveSong();
   },
   randomSong: function () {
     if (this.randomSongs.length === 0) {
@@ -343,6 +371,20 @@ const app = {
     console.log('After: ', this.randomSongs);
     this.currentIndex = newIndex;
     this.loadCurrentSong(this.currentIndex);
+  },
+  handleActiveSong: function () {
+    $$('.song').forEach((song) => {
+      song.classList.remove('active');
+    });
+    $$('.song')[this.currentIndex].classList.add('active');
+  },
+  scrollToActiveSong: function () {
+    setTimeout(() => {
+      $('.song.active').scrollIntoView({
+        behavior: 'smooth',
+        block: 'center',
+      });
+    }, 300);
   },
   formatTime: function (time) {
     let minutes = Math.floor(time / 60);
