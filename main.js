@@ -151,6 +151,30 @@ const app = {
       cover: './assets/images/NhuNgayHomQua-SonTungMTP.jpg',
       path: './assets/audio/NhuNgayHomQua-SonTungMTP.mp3',
     },
+    {
+      title: 'Beautiful in white',
+      artist: 'Shane Filan',
+      cover: './assets/images/BeautifulInWhite-ShaneFilan.jpg',
+      path: './assets/audio/BeautifulInWhite-ShaneFilan.mp3',
+    },
+    {
+      title: 'Girls like you',
+      artist: 'Maroon 5 ft Cardi B',
+      cover: './assets/images/GirlsLikeYou-Maroon5-CardiB.jpg',
+      path: './assets/audio/GirlsLikeYou-Maroon5-CardiB.mp3',
+    },
+    {
+      title: 'Memories',
+      artist: 'Maroon 5',
+      cover: './assets/images/Memories-Maroon5.jpg',
+      path: './assets/audio/Memories-Maroon5.mp3',
+    },
+    {
+      title: 'The nights',
+      artist: 'Avicii',
+      cover: './assets/images/TheNights-Avicii.jpg',
+      path: './assets/audio/TheNights-Avicii.mp3',
+    },
   ],
   render: function () {
     const htmls = this.songs
@@ -328,8 +352,13 @@ const app = {
     playList.addEventListener('click', function (e) {
       const songElement = e.target.closest('.song:not(.active)');
       const optionElement = e.target.closest('.option');
-      console.dir(e.target.closest);
+      // console.dir(e.target.closest);
       if (songElement || optionElement) {
+        //Handle when click on option
+        if (optionElement) {
+          // Do something when click on option
+          return;
+        }
         // Handle when click on song
         if (songElement) {
           const songIndex = songElement.dataset.index;
@@ -338,10 +367,6 @@ const app = {
           _this.handleActiveSong(songIndex);
           _this.scrollToActiveSong();
           audio.play();
-        }
-
-        //Handle when click on option
-        if (optionElement) {
         }
       }
     });
@@ -389,10 +414,17 @@ const app = {
     $$('.song')[this.currentIndex].classList.add('active');
   },
   scrollToActiveSong: function () {
+    let block = 'center';
+    if (
+      document.documentElement.offsetWidth < 768 ||
+      document.body.offsetWidth < 768
+    ) {
+      block = 'end';
+    }
     setTimeout(() => {
       $('.song.active').scrollIntoView({
         behavior: 'smooth',
-        block: 'center',
+        block: block,
       });
     }, 300);
   },
